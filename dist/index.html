@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description"
+    content="SHIFT — Votre copilote de transformation. Diagnostic, roadmap et coaching pour dirigeants de cabinets d'expertise comptable.">
+  <meta name="theme-color" content="#0F172A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>SHIFT — Du Chiffre à la Valeur</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="css/style.css?v=6">
+</head>
+
+<body>
+
+  <!-- ========== SPLASH SCREEN ========== -->
+  <div id="splash-screen" class="view active">
+    <div class="splash-container">
+      <div class="splash-particles" id="particles"></div>
+      <div class="splash-content">
+        <div class="splash-logo">
+          <div class="logo-icon">
+            <svg viewBox="0 0 60 60" class="logo-svg">
+              <polygon class="logo-pentagon" points="30,2 57,22 47,55 13,55 3,22" fill="none" stroke="url(#logoGrad)"
+                stroke-width="2" />
+              <defs>
+                <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#F59E0B" />
+                  <stop offset="100%" style="stop-color:#D97706" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <h1 class="splash-title">SHIFT</h1>
+        </div>
+        <p class="splash-subtitle">Du Chiffre à la Valeur</p>
+        <p class="splash-tagline">Le changement n'attend pas.<br>Mais <strong>vous pouvez le piloter.</strong></p>
+        <button class="btn-primary btn-glow" id="btn-start-diagnostic">
+          <i class="ph ph-lightning"></i>
+          Faites votre diagnostic
+        </button>
+        <p class="splash-hint">15 questions · 5 minutes · Résultats immédiats</p>
+      </div>
+      <div class="splash-stats">
+        <div class="stat-item">
+          <span class="stat-number" data-target="73">0</span><span class="stat-suffix">%</span>
+          <span class="stat-label">des cabinets veulent évoluer</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" data-target="80">0</span><span class="stat-suffix">%</span>
+          <span class="stat-label">des écritures automatisables</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" data-target="2026">0</span><span class="stat-suffix"></span>
+          <span class="stat-label">facture électronique généralisée</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== DIAGNOSTIC VIEW ========== -->
+  <div id="diagnostic-view" class="view">
+    <div class="diagnostic-container">
+      <div class="diagnostic-header">
+        <button class="btn-icon" id="btn-diag-back"><i class="ph ph-arrow-left"></i></button>
+        <div class="diagnostic-progress">
+          <div class="progress-bar">
+            <div class="progress-fill" id="diag-progress-fill"></div>
+          </div>
+          <span class="progress-text" id="diag-progress-text">1 / 15</span>
+        </div>
+        <div class="diagnostic-axis-badge" id="diag-axis-badge">Gouvernance</div>
+      </div>
+      <div class="diagnostic-body">
+        <div class="question-card" id="question-card">
+          <div class="question-number" id="question-number">01</div>
+          <h2 class="question-text" id="question-text"></h2>
+          <p class="question-context" id="question-context"></p>
+          <div class="answers-grid" id="answers-grid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== RADAR RESULTS VIEW ========== -->
+  <div id="radar-view" class="view">
+    <div class="radar-container">
+      <div class="radar-header">
+        <h1 class="radar-title">Votre Radar de Maturité</h1>
+        <p class="radar-subtitle" id="radar-verdict"></p>
+      </div>
+      <div class="radar-chart-wrapper">
+        <svg id="radar-svg" viewBox="0 0 500 500" class="radar-svg"></svg>
+      </div>
+      <div class="radar-scores" id="radar-scores"></div>
+      <div class="radar-level" id="radar-level"></div>
+      <div class="radar-actions">
+        <button class="btn-primary btn-glow" id="btn-see-roadmap">
+          <i class="ph ph-map-trifold"></i>
+          Découvrir ma Roadmap
+        </button>
+        <button class="btn-secondary" id="btn-retake">
+          <i class="ph ph-arrow-counter-clockwise"></i>
+          Refaire le diagnostic
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== REGISTRATION VIEW ========== -->
+  <div id="registration-view" class="view">
+    <div class="registration-container">
+      <div class="registration-header">
+        <h1 class="registration-title">Bienvenue dans SHIFT</h1>
+        <p class="registration-subtitle">Enregistrez vos résultats pour accéder à votre roadmap.</p>
+      </div>
+      <form id="registration-form" class="registration-form">
+        <div class="form-group">
+          <label for="reg-name">Nom complet</label>
+          <input type="text" id="reg-name" required placeholder="Ex: Jean Dupont">
+        </div>
+        <div class="form-group">
+          <label for="reg-email">Email professionnel</label>
+          <input type="email" id="reg-email" required placeholder="Ex: jean@cabinet.com">
+        </div>
+        <div class="form-group">
+          <label for="reg-cabinet">Nom du cabinet</label>
+          <input type="text" id="reg-cabinet" required placeholder="Ex: Cabinet Alpha">
+        </div>
+        <div class="form-row">
+          <div class="form-group half">
+            <label for="reg-size">Effectif</label>
+            <select id="reg-size" required>
+              <option value="" disabled selected>Choisir...</option>
+              <option value="1-5">1 - 5</option>
+              <option value="6-15">6 - 15</option>
+              <option value="16-50">16 - 50</option>
+              <option value="50+">50+</option>
+            </select>
+          </div>
+          <div class="form-group half">
+            <label for="reg-role">Rôle</label>
+            <select id="reg-role" required>
+              <option value="" disabled selected>Choisir...</option>
+              <option value="Expert-Comptable">Expert-Comptable</option>
+              <option value="Dirigeant">Dirigeant(e)</option>
+              <option value="Collaborateur">Collaborateur(trice)</option>
+              <option value="Autre">Autre</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary btn-glow btn-block" style="width:100%; margin-top:10px;">
+          Générer ma Roadmap <i class="ph ph-arrow-right"></i>
+        </button>
+      </form>
+      <p class="registration-disclaimer">Vos données restent confidentielles et servent uniquement à personnaliser votre
+        expérience.</p>
+    </div>
+  </div>
+
+  <!-- ========== DASHBOARD / ROADMAP VIEW ========== -->
+  <div id="dashboard-view" class="view">
+    <div class="dashboard-container">
+      <!-- Top Bar -->
+      <div class="dashboard-topbar">
+        <div class="topbar-left">
+          <div class="logo-small">
+            <svg viewBox="0 0 60 60" width="28" height="28">
+              <polygon points="30,2 57,22 47,55 13,55 3,22" fill="none" stroke="#F59E0B" stroke-width="2.5" />
+            </svg>
+          </div>
+          <span class="topbar-title">SHIFT</span>
+        </div>
+        <div class="topbar-right">
+          <button class="btn-icon topbar-btn" id="btn-open-assistant" title="Assistant">
+            <i class="ph ph-chat-centered-dots"></i>
+            <span class="assistant-dot"></span>
+          </button>
+          <div class="user-profile-trigger" id="btn-open-profile-top">
+            <div class="user-avatar-small"><i class="ph ph-user-circle"></i></div>
+            <div class="user-meta-top">
+              <span id="top-user-name">Utilisateur</span>
+              <span id="top-user-cabinet">Cabinet</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard Content -->
+      <div class="dashboard-content">
+        <!-- Mini Radar -->
+        <section class="dash-section dash-radar-mini">
+          <div class="section-header">
+            <h2><i class="ph ph-polygon"></i> Mon Radar</h2>
+            <button class="btn-text" id="btn-view-radar">Voir détail <i class="ph ph-arrow-right"></i></button>
+          </div>
+          <div class="mini-radar-wrapper">
+            <svg id="mini-radar-svg" viewBox="0 0 300 300" class="mini-radar-svg"></svg>
+            <div class="mini-radar-score" id="mini-radar-score"></div>
+          </div>
+        </section>
+
+        <!-- Active Sprint -->
+        <section class="dash-section dash-sprint-active">
+          <div class="section-header">
+            <h2><i class="ph ph-flag-pennant"></i> Sprint Actif</h2>
+            <span class="sprint-badge" id="sprint-badge">Sprint 1/8</span>
+          </div>
+          <div class="sprint-card" id="active-sprint-card"></div>
+        </section>
+
+        <!-- Roadmap Timeline -->
+        <section class="dash-section dash-roadmap">
+          <div class="section-header">
+            <h2><i class="ph ph-map-trifold"></i> Ma Roadmap</h2>
+          </div>
+          <div class="roadmap-timeline" id="roadmap-timeline"></div>
+        </section>
+
+        <!-- Simulators -->
+        <section class="dash-section dash-simulators">
+          <div class="section-header">
+            <h2><i class="ph ph-calculator"></i> Simulateurs</h2>
+          </div>
+          <div class="simulator-cards">
+            <div class="sim-card" data-sim="pricing">
+              <div class="sim-icon"><i class="ph ph-currency-eur"></i></div>
+              <h3>Prix à la Valeur</h3>
+              <p>Sortez du temps passé</p>
+            </div>
+            <div class="sim-card" data-sim="ia">
+              <div class="sim-icon"><i class="ph ph-robot"></i></div>
+              <h3>Impact IA</h3>
+              <p>Mesurez le potentiel</p>
+            </div>
+            <div class="sim-card" data-sim="roi">
+              <div class="sim-icon"><i class="ph ph-chart-line-up"></i></div>
+              <h3>ROI Missions</h3>
+              <p>Calculez la valeur</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Bibliothéque Missions -->
+        <section class="dash-section dash-missions">
+          <div class="section-header">
+            <h2><i class="ph ph-books"></i> Bibliothèque de Missions</h2>
+          </div>
+          <div class="mission-cards" id="mission-cards"></div>
+        </section>
+
+        <!-- Profile / Settings Section (Legacy or secondary) -->
+        <section class="dash-section dash-profile-shortcut">
+          <div class="profile-shortcut-card" id="btn-navigate-profile">
+            <div class="shortcut-icon"><i class="ph ph-gear"></i></div>
+            <div class="shortcut-content">
+              <h3>Paramètres & Ressources</h3>
+              <p>Gérez vos données et téléchargez le Livre Blanc</p>
+            </div>
+            <i class="ph ph-caret-right"></i>
+          </div>
+        </section>
+      </div>
+
+      <!-- Bottom Navigation -->
+      <nav class="bottom-nav">
+        <button class="nav-item active" data-tab="dashboard">
+          <i class="ph ph-house"></i>
+          <span>Accueil</span>
+        </button>
+        <button class="nav-item" data-tab="roadmap">
+          <i class="ph ph-map-trifold"></i>
+          <span>Roadmap</span>
+        </button>
+        <button class="nav-item nav-item-center" id="btn-nav-assistant">
+          <div class="nav-center-btn">
+            <i class="ph ph-chat-centered-dots"></i>
+          </div>
+          <span>Assistant</span>
+        </button>
+        <button class="nav-item" data-tab="simulators">
+          <i class="ph ph-calculator"></i>
+          <span>Simulateurs</span>
+        </button>
+        <button class="nav-item" data-tab="profile">
+          <i class="ph ph-user-circle"></i>
+          <span>Profil</span>
+        </button>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ========== SPRINT DETAIL MODAL ========== -->
+  <div id="sprint-modal" class="modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="sprint-modal-title"></h2>
+        <button class="btn-icon modal-close"><i class="ph ph-x"></i></button>
+      </div>
+      <div class="modal-body" id="sprint-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- ========== SIMULATOR MODAL ========== -->
+  <div id="simulator-modal" class="modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content modal-lg">
+      <div class="modal-header">
+        <h2 id="sim-modal-title"></h2>
+        <button class="btn-icon modal-close"><i class="ph ph-x"></i></button>
+      </div>
+      <div class="modal-body" id="sim-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- ========== ASSISTANT PANEL ========== -->
+  <div id="assistant-panel" class="assistant-panel">
+    <div class="assistant-header">
+      <div class="assistant-title">
+        <div class="assistant-avatar">
+          <i class="ph ph-robot"></i>
+        </div>
+        <div>
+          <h3>SHIFT Assistant</h3>
+          <span class="assistant-status">Expert · Livre Blanc</span>
+        </div>
+      </div>
+      <button class="btn-icon" id="btn-close-assistant"><i class="ph ph-x"></i></button>
+    </div>
+    <div class="assistant-messages" id="assistant-messages">
+      <div class="msg msg-bot">
+        <div class="msg-avatar"><i class="ph ph-robot"></i></div>
+        <div class="msg-bubble">
+          <p>👋 Je suis votre assistant SHIFT, expert du livre blanc <strong>"Du Chiffre à la Valeur"</strong>.</p>
+          <p>Posez-moi vos questions sur la transformation de votre cabinet. Je peux vous aider sur :</p>
+          <div class="msg-suggestions">
+            <button class="suggestion-chip" data-q="Comment sortir du modèle temps passé ?">💰 Sortir du temps
+              passé</button>
+            <button class="suggestion-chip" data-q="Comment structurer mes nouvelles missions ?">🎯 Nouvelles
+              missions</button>
+            <button class="suggestion-chip" data-q="Par où commencer ma transformation ?">🚀 Par où commencer ?</button>
+            <button class="suggestion-chip" data-q="Comment gérer la résistance au changement ?">👥 Conduite du
+              changement</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="assistant-input">
+      <input type="text" id="assistant-input-field" placeholder="Posez votre question...">
+      <button class="btn-send" id="btn-send-msg"><i class="ph ph-paper-plane-tilt"></i></button>
+    </div>
+  </div>
+
+  <!-- ========== PROFILE MODAL ========== -->
+  <div id="profile-modal" class="modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Mon Profil SHIFT</h2>
+        <button class="btn-icon modal-close"><i class="ph ph-x"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="profile-header">
+          <div class="profile-avatar"><i class="ph ph-user"></i></div>
+          <div class="profile-info">
+            <h3 id="profile-user-name">Utilisateur</h3>
+            <p id="profile-user-cabinet">Cabinet</p>
+          </div>
+        </div>
+
+        <div class="profile-section">
+          <h4><i class="ph ph-books"></i> Ressources Clés</h4>
+          <div class="resource-list">
+            <a href="assets/livre-blanc-shift.pdf" download class="resource-item">
+              <div class="res-icon"><i class="ph ph-file-pdf"></i></div>
+              <div class="res-body">
+                <span>Le Livre Blanc - Complet</span>
+                <p>Format PDF (120 pages)</p>
+              </div>
+              <i class="ph ph-download-simple"></i>
+            </a>
+            <div class="resource-item disabled" title="Bientôt disponible">
+              <div class="res-icon"><i class="ph ph-file-xls"></i></div>
+              <div class="res-body">
+                <span>Template Pricing Valeur</span>
+                <p>Calculateur Excel</p>
+              </div>
+              <i class="ph ph-lock"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-section">
+          <h4><i class="ph ph-gear"></i> Paramètres</h4>
+          <button class="btn-outline btn-block" id="btn-reset-app-profile">
+            <i class="ph ph-arrows-counter-clockwise"></i> Réinitialiser tout mon parcours
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== MISSION DETAIL MODAL ========== -->
+  <div id="mission-modal" class="modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content modal-lg">
+      <div class="modal-header">
+        <h2 id="mission-modal-title"></h2>
+        <button class="btn-icon modal-close"><i class="ph ph-x"></i></button>
+      </div>
+      <div class="modal-body" id="mission-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/radar.js"></script>
+  <script src="js/diagnostic.js"></script>
+  <script src="js/assistant.js"></script>
+  <script src="js/simulators.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>
