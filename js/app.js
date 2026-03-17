@@ -482,16 +482,32 @@ class ShiftApp {
     // Checklist interactions
     card.querySelectorAll('.sprint-check-item').forEach(item => {
       item.addEventListener('click', (e) => {
-        // Prevent check when clicking on 'how' text if we want, 
-        // but usually we want the whole area to be clickable
         const sprintId = parseInt(item.getAttribute('data-sprint'));
         const idx = parseInt(item.getAttribute('data-idx'));
+
         this.toggleCheck(sprintId, idx);
         item.classList.toggle('checked');
-        // Update progress
-        const c = this.checkedItems[sprintId] || [];
-        const p = (c.length / sprint.checklist.length) * 100;
+
+        // Update progress UI
+        const currentChecked = this.checkedItems[sprintId] || [];
+        const p = (currentChecked.length / sprint.checklist.length) * 100;
         card.querySelector('.sprint-progress-fill').style.width = p + '%';
+
+        // Auto-advance if sprint completed
+        if (currentChecked.length === sprint.checklist.length && this.activeSprint < SHIFT_DATA.sprints.length - 1) {
+          // Check if it's the current active sprint being completed
+          const activeSprintId = SHIFT_DATA.sprints[this.activeSprint].id;
+          if (sprintId === activeSprintId) {
+            this.activeSprint++;
+            localStorage.setItem('shift_sprint', this.activeSprint);
+
+            setTimeout(() => {
+              this.triggerLevelUpAnimation(this.activeSprint).then(() => {
+                this.renderDashboard();
+              });
+            }, 600);
+          }
+        }
       });
     });
   }
@@ -609,6 +625,23 @@ class ShiftApp {
         const i = parseInt(item.getAttribute('data-idx'));
         this.toggleCheck(sId, i);
         item.classList.toggle('checked');
+
+        // Auto-advance if active sprint completed in modal
+        const currentChecked = this.checkedItems[sId] || [];
+        const sprintData = SHIFT_DATA.sprints.find(s => s.id === sId);
+
+        if (currentChecked.length === sprintData.checklist.length && idx === this.activeSprint && this.activeSprint < SHIFT_DATA.sprints.length - 1) {
+          this.activeSprint++;
+          localStorage.setItem('shift_sprint', this.activeSprint);
+          modal.classList.remove('open');
+
+          setTimeout(() => {
+            this.triggerLevelUpAnimation(this.activeSprint).then(() => {
+              this.renderActiveSprint();
+              this.renderRoadmap();
+            });
+          }, 600);
+        }
       });
     });
 
