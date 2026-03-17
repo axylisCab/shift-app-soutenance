@@ -44,19 +44,12 @@ class RadarChart {
                stroke="rgba(255,255,255,0.15)" stroke-width="2"/>`;
     });
 
-    // Étiquettes des axes (Titres et Icônes)
-    // Étiquettes des axes (Titres et Icônes)
+    // Étiquettes des axes (Titres uniquement)
     this.axes.forEach((axis, i) => {
-      // Icône massive
-      const pIcon = this.getPoint(i, this.levels + 0.5, this.levels);
-      html += `<text x="${pIcon.x}" y="${pIcon.y}" text-anchor="middle" dominant-baseline="middle" 
-               fill="${axis.color}" font-family="Outfit" font-weight="700" font-size="60">
-               ${axis.icon}</text>`;
-
-      // Titre en majuscules
-      const pLabel = this.getPoint(i, this.levels + 1.2, this.levels);
+      // Titre en majuscules - Repositionné plus près du radar (0.7)
+      const pLabel = this.getPoint(i, this.levels + 0.7, this.levels);
       html += `<text x="${pLabel.x}" y="${pLabel.y}" text-anchor="middle" dominant-baseline="middle" 
-               fill="var(--text-primary)" font-family="Outfit" font-weight="800" font-size="32" style="letter-spacing: 2px;">
+               fill="var(--text-primary)" font-family="Outfit" font-weight="800" font-size="34" style="letter-spacing: 2px;">
                ${axis.label.toUpperCase()}</text>`;
     });
 
@@ -169,14 +162,10 @@ class RadarChart {
       html += `<line x1="${this.center}" y1="${this.center}" x2="${p.x}" y2="${p.y}" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>`;
     });
 
-    // Axis labels (small) with anti-clipping positioning (Massive)
-    // Étiquettes mini (Icônes + Titres réduits)
+    // Étiquettes mini (Titres uniquement)
     this.axes.forEach((axis, i) => {
-      const p = this.getPoint(i, this.levels + 0.55, this.levels);
-      html += `<text x="${p.x}" y="${p.y}" text-anchor="middle" dominant-baseline="middle" fill="${axis.color}" font-family="Outfit" font-weight="700" font-size="45">${axis.icon}</text>`;
-
-      const pLabel = this.getPoint(i, this.levels + 1.15, this.levels);
-      html += `<text x="${pLabel.x}" y="${pLabel.y}" text-anchor="middle" dominant-baseline="middle" fill="var(--text-secondary)" font-family="Outfit" font-weight="800" font-size="24" style="letter-spacing: 1px;">${axis.label.toUpperCase()}</text>`;
+      const pLabel = this.getPoint(i, this.levels + 0.65, this.levels);
+      html += `<text x="${pLabel.x}" y="${pLabel.y}" text-anchor="middle" dominant-baseline="middle" fill="var(--text-secondary)" font-family="Outfit" font-weight="800" font-size="28" style="letter-spacing: 1px;">${axis.label.toUpperCase()}</text>`;
     });
 
     // Previous data polygon (ghost)
