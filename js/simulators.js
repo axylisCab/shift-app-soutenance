@@ -107,12 +107,12 @@ class Simulators {
   renderIA() {
     this.modalTitle.textContent = '🤖 Simulateur Impact IA';
     this.modalBody.innerHTML = `
-      < div class="sim-section" >
+      <div class="sim-section">
         <h3>Quel temps pouvez-vous libérer avec l'IA ?</h3>
         <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:20px">
           60 à 80% des écritures comptables sont automatisables. Simulez l'impact sur votre cabinet.
         </p>
-      </div >
+      </div>
       <div class="sim-section">
         <div class="sim-slider-group">
           <div class="sim-slider-label"><span>Collaborateurs</span><span class="sim-slider-value" id="val-collabs">8</span></div>
@@ -126,20 +126,27 @@ class Simulators {
           <div class="sim-slider-label"><span>Taux automatisation cible (%)</span><span class="sim-slider-value" id="val-taux">70</span></div>
           <input type="range" id="sl-taux" min="20" max="90" value="70" step="5">
         </div>
-      </div>
-      <div class="sim-result" style="margin-top:20px">
-        <div class="sim-result-label">⏱️ Heures libérées par semaine</div>
-        <div class="sim-result-value" id="res-heures">112h</div>
-        <div class="sim-result-detail" id="res-heures-detail">Soit 2,8 ETP réaffectables aux missions à valeur</div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
-        <div class="sim-result">
-          <div class="sim-result-label">📅 Heures/an libérées</div>
-          <div class="sim-result-value" id="res-annuel" style="font-size:1.8rem">5 376h</div>
+        <div class="sim-slider-group">
+          <div class="sim-slider-label"><span>Taux horaire conseil (€/h)</span><span class="sim-slider-value" id="val-tarif">75</span></div>
+          <input type="range" id="sl-tarif" min="50" max="150" value="75" step="5">
         </div>
-        <div class="sim-result">
-          <div class="sim-result-label">💶 Valeur potentielle</div>
-          <div class="sim-result-value" id="res-valeur-ia" style="font-size:1.8rem;color:var(--success)">268 800 €</div>
+      </div>
+
+      <div class="sim-result-triptych">
+        <div class="sim-result current">
+          <div class="sim-result-label">📊 Saisie Actuelle</div>
+          <div class="sim-result-value" id="res-saisie-actuelle" style="font-size: 2rem;">7 680h</div>
+          <div class="sim-result-detail">Heures / an (Total cabinet)</div>
+        </div>
+        <div class="sim-result success">
+          <div class="sim-result-label">🤖 Heures Libérées</div>
+          <div class="sim-result-value" id="res-annuel" style="font-size: 2rem;">5 376h</div>
+          <div class="sim-result-detail" id="res-heures-detail">Soit 3.2 ETP réaffectables</div>
+        </div>
+        <div class="sim-result success">
+          <div class="sim-result-label">✨ Valeur Conseil</div>
+          <div class="sim-result-value" id="res-valeur-ia" style="font-size: 2rem; color: var(--success);">403 200 €</div>
+          <div class="sim-result-detail">CA potentiel généré</div>
         </div>
       </div>
     `;
@@ -147,19 +154,28 @@ class Simulators {
       const collabs = +document.getElementById('sl-collabs').value;
       const saisie = +document.getElementById('sl-saisie').value;
       const taux = +document.getElementById('sl-taux').value;
+      const tarif = +document.getElementById('sl-tarif').value;
+
       document.getElementById('val-collabs').textContent = collabs;
       document.getElementById('val-saisie').textContent = saisie + 'h';
       document.getElementById('val-taux').textContent = taux + '%';
-      const heuresLib = Math.round(collabs * saisie * (taux / 100));
-      const etp = (heuresLib / 35).toFixed(1);
-      const annuel = heuresLib * 48;
-      const valeur = annuel * 50;
-      document.getElementById('res-heures').textContent = heuresLib + 'h';
-      document.getElementById('res-heures-detail').textContent = `Soit ${etp} ETP réaffectables aux missions à valeur`;
-      document.getElementById('res-annuel').textContent = annuel.toLocaleString('fr-FR') + 'h';
-      document.getElementById('res-valeur-ia').textContent = valeur.toLocaleString('fr-FR') + ' €';
+      document.getElementById('val-tarif').textContent = tarif;
+
+      const totalSaisieAnnuelle = collabs * saisie * 48;
+      const annuelLib = Math.round(totalSaisieAnnuelle * (taux / 100));
+      const etp = (annuelLib / 1607).toFixed(1); // 1607h = 1 ETP légal
+      const valeur = annuelLib * tarif;
+
+      document.getElementById('res-saisie-actuelle').textContent = Math.round(totalSaisieAnnuelle).toLocaleString('fr-FR') + 'h';
+      document.getElementById('res-annuel').textContent = annuelLib.toLocaleString('fr-FR') + 'h';
+      document.getElementById('res-heures-detail').textContent = `Soit ${etp} ETP réaffectables`;
+      document.getElementById('res-valeur-ia').textContent = Math.round(valeur).toLocaleString('fr-FR') + ' €';
     };
-    ['sl-collabs', 'sl-saisie', 'sl-taux'].forEach(id => document.getElementById(id)?.addEventListener('input', update));
+
+    ['sl-collabs', 'sl-saisie', 'sl-taux', 'sl-tarif'].forEach(id => {
+      document.getElementById(id)?.addEventListener('input', update);
+    });
+
     update();
   }
 
