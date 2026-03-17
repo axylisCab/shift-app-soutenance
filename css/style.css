@@ -3115,3 +3115,55 @@ input[type="range"]::-webkit-slider-thumb {
   color: var(--text-primary);
 }
 
+
+/* --- Simulator Triptych UI --- */
+.sim-result-triptych {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.sim-result.current {
+  border-left: 3px solid var(--accent-primary);
+}
+
+.sim-result.danger {
+  border-left: 3px solid var(--danger);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.sim-result.success {
+  border-left: 3px solid var(--success);
+  background: rgba(16, 185, 129, 0.05);
+}
+
+.sim-result.current .sim-result-value {
+  color: var(--text-primary);
+}
+
+.sim-result.danger .sim-result-value {
+  color: var(--danger);
+}
+
+.sim-result.success .sim-result-value {
+  color: var(--success);
+}
+
+.sim-result-triptych .sim-result {
+  padding: 15px;
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  transition: transform 0.3s ease;
+}
+
+.sim-result-triptych .sim-result:hover {
+  transform: translateY(-5px);
+}
+
+@media (max-width: 600px) {
+  .sim-result-triptych {
+    grid-template-columns: 1fr;
+  }
+}
+

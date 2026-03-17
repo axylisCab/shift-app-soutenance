@@ -49,21 +49,25 @@ class Simulators {
           <input type="range" id="sl-auto" min="10" max="80" value="40" step="5">
         </div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px">
-        <div class="sim-result" style="border-left:3px solid var(--danger)">
-          <div class="sim-result-label">❌ Modèle temps passé</div>
-          <div class="sim-result-value" id="res-temps" style="color:var(--danger)">90 000 €</div>
-          <div class="sim-result-detail" id="res-temps-detail">Perte: -60 000 €</div>
+      <div class="sim-result-triptych">
+        <div class="sim-result current">
+          <div class="sim-result-label">📊 CA de référence</div>
+          <div class="sim-result-value" id="res-actuel">5 000 €</div>
+          <div class="sim-result-detail">Vente de temps (Base)</div>
         </div>
-        <div class="sim-result" style="border-left:3px solid var(--success)">
+        <div class="sim-result danger">
+          <div class="sim-result-label">❌ Modèle temps passé</div>
+          <div class="sim-result-value" id="res-temps">4 500 €</div>
+          <div class="sim-result-detail" id="res-temps-detail">Perte: -500 €</div>
+        </div>
+        <div class="sim-result success">
           <div class="sim-result-label">
-            ✅ Modèle valeur (3 niveaux)
+            ✅ Modèle valeur
             <span class="info-trigger" id="trigger-valeur-info"><i class="ph ph-question"></i></span>
           </div>
-          <div class="sim-result-value" id="res-valeur" style="color:var(--success)">225 000 €</div>
-          <div class="sim-result-detail" id="res-valeur-detail">Gain: +75 000 €</div>
+          <div class="sim-result-value" id="res-valeur">7 500 €</div>
+          <div class="sim-result-detail" id="res-valeur-detail">Gain: +2 500 €</div>
         </div>
-      </div>
 
       <div id="pricing-explanation" class="sim-explanation-box">
         <h4>Pourquoi ce gain de +50% ?</h4>
@@ -84,6 +88,7 @@ class Simulators {
       const caActuel = clients * honoraire;
       const caTemps = caActuel * (1 - auto / 100);
       const caValeur = caActuel * 1.5;
+      document.getElementById('res-actuel').textContent = Math.round(caActuel).toLocaleString('fr-FR') + ' €';
       document.getElementById('res-temps').textContent = Math.round(caTemps).toLocaleString('fr-FR') + ' €';
       document.getElementById('res-temps-detail').textContent = `Perte: ${Math.round(caTemps - caActuel).toLocaleString('fr-FR')} €`;
       document.getElementById('res-valeur').textContent = Math.round(caValeur).toLocaleString('fr-FR') + ' €';
