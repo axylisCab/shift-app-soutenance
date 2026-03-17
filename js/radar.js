@@ -7,7 +7,7 @@ class RadarChart {
     this.svg = svgElement;
     this.size = size;
     this.center = size / 2;
-    this.maxRadius = size * 0.36; // ~180 sur 500 (+33% vs 135)
+    this.maxRadius = size * 0.30; // ~150 sur 500 (Réduit pour plus de visibilité des labels)
     this.axes = SHIFT_DATA.axes;
     this.levels = 4;
   }
