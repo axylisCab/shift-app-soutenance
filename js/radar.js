@@ -46,10 +46,17 @@ class RadarChart {
 
     // Draw axis labels
     this.axes.forEach((axis, i) => {
-      const p = this.getPoint(i, this.levels + 0.7, this.levels);
-      html += `<text x="${p.x}" y="${p.y}" text-anchor="middle" dominant-baseline="middle" 
-               fill="${axis.color}" font-family="Outfit" font-weight="700" font-size="14">
-               ${axis.icon} ${axis.label}</text>`;
+      // Icon
+      const pIcon = this.getPoint(i, this.levels + 0.55, this.levels);
+      html += `<text x="${pIcon.x}" y="${pIcon.y}" text-anchor="middle" dominant-baseline="middle" 
+               fill="${axis.color}" font-family="Outfit" font-weight="700" font-size="18">
+               ${axis.icon}</text>`;
+
+      // Label
+      const pLabel = this.getPoint(i, this.levels + 1.1, this.levels);
+      html += `<text x="${pLabel.x}" y="${pLabel.y}" text-anchor="middle" dominant-baseline="middle" 
+               fill="var(--text-primary)" font-family="Outfit" font-weight="700" font-size="11" style="letter-spacing: 1px; opacity: 0.9;">
+               ${axis.label.toUpperCase()}</text>`;
     });
 
     return html;
@@ -163,7 +170,10 @@ class RadarChart {
     // Axis labels (small)
     this.axes.forEach((axis, i) => {
       const p = this.getPoint(i, this.levels + 0.55, this.levels);
-      html += `<text x="${p.x}" y="${p.y}" text-anchor="middle" dominant-baseline="middle" fill="${axis.color}" font-family="Outfit" font-weight="700" font-size="10">${axis.icon}</text>`;
+      html += `<text x="${p.x}" y="${p.y}" text-anchor="middle" dominant-baseline="middle" fill="${axis.color}" font-family="Outfit" font-weight="700" font-size="8">${axis.icon}</text>`;
+
+      const pLabel = this.getPoint(i, this.levels + 1.0, this.levels);
+      html += `<text x="${pLabel.x}" y="${pLabel.y}" text-anchor="middle" dominant-baseline="middle" fill="var(--text-secondary)" font-family="Inter" font-weight="600" font-size="7">${axis.label.toUpperCase()}</text>`;
     });
 
     // Previous data polygon (ghost)
