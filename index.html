@@ -200,10 +200,9 @@
           <span class="topbar-title">SHIFT</span>
         </div>
         <div class="topbar-right">
-          <a href="assets/Livre Blanc - Du Chiffre a la Valeur.pdf" download class="btn-icon topbar-btn"
-            id="btn-download-lb" title="Télécharger le Livre Blanc">
-            <i class="ph ph-download-simple"></i>
-          </a>
+          <button class="btn-icon topbar-btn" id="btn-open-resources-top" title="Ressources">
+            <i class="ph ph-books"></i>
+          </button>
           <button class="btn-icon topbar-btn" id="btn-open-assistant" title="Assistant">
             <i class="ph ph-chat-centered-dots"></i>
             <span class="assistant-dot"></span>
@@ -383,7 +382,58 @@
     </div>
   </div>
 
+  <!-- ========== RESOURCES MODAL ========== -->
+  <div id="resources-modal" class="modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Ressources SHIFT</h2>
+        <button class="btn-icon modal-close"><i class="ph ph-x"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="methodology-intro">
+          <h4><i class="ph ph-info"></i> La Méthode SHIFT</h4>
+          <p>Une approche systémique pour passer d'une offre de conformité à une offre de valeur.</p>
+          <div class="method-grid">
+            <div class="method-pill"><strong>S</strong>ens</div>
+            <div class="method-pill"><strong>H</strong>umain</div>
+            <div class="method-pill"><strong>I</strong>mpact</div>
+            <div class="method-pill"><strong>F</strong>idélisation</div>
+            <div class="method-pill"><strong>T</strong>rajectoire</div>
+          </div>
+        </div>
 
+        <div class="resource-list">
+          <a href="assets/livre-blanc-shift.pdf" download class="resource-item">
+            <div class="res-icon"><i class="ph ph-file-pdf"></i></div>
+            <div class="res-body">
+              <span>Livre Blanc — Du Chiffre à la Valeur</span>
+              <p>Le guide complet pour transformer votre cabinet.</p>
+            </div>
+            <div class="res-action"><i class="ph ph-download-simple"></i></div>
+          </a>
+
+          <a href="assets/calculateur-pricing.xlsx" download class="resource-item" id="res-pricing">
+            <div class="res-icon"><i class="ph ph-file-xls"></i></div>
+            <div class="res-body">
+              <span>Calculateur de Pricing à la Valeur</span>
+              <p>Outil d'aide à la vente (Inclus)</p>
+            </div>
+            <div class="res-action"><i class="ph ph-download-simple"></i></div>
+          </a>
+
+          <a href="assets/deck-presentation.pdf" download class="resource-item" id="res-deck">
+            <div class="res-icon"><i class="ph ph-presentation-chart"></i></div>
+            <div class="res-body">
+              <span>Deck de Présentation Client</span>
+              <p>Template interactif pour vos missions.</p>
+            </div>
+            <div class="res-action"><i class="ph ph-download-simple"></i></div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ========== PROFILE MODAL ========== -->
   <div id="profile-modal" class="modal">
@@ -432,7 +482,23 @@
     </div>
   </div>
 
+  <!-- ========== PRESENTATION MODE MODAL ========== -->
+  <div id="presentation-modal" class="modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content presentation-content">
+      <button class="presentation-close modal-close"><i class="ph ph-x"></i></button>
 
+      <div class="slides-container" id="slides-container">
+        <!-- Slides will be injected by JS -->
+      </div>
+
+      <div class="presentation-controls">
+        <button id="prev-slide" class="btn-icon"><i class="ph ph-caret-left"></i></button>
+        <div class="slide-indicator"><span id="current-slide">1</span> / <span id="total-slides">6</span></div>
+        <button id="next-slide" class="btn-icon"><i class="ph ph-caret-right"></i></button>
+      </div>
+    </div>
+  </div>
 
   <!-- Scripts -->
   <script src="js/data.js"></script>

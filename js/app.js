@@ -146,7 +146,24 @@ class ShiftApp {
 
     // Profile & Resources Buttons
     document.getElementById('btn-open-profile-top')?.addEventListener('click', () => this.openProfile());
+    document.getElementById('btn-open-resources-top')?.addEventListener('click', () => {
+      document.getElementById('resources-modal').classList.add('open');
+    });
 
+    // Profile auto-save
+    document.getElementById('profile-edit-name')?.addEventListener('input', (e) => this.updateProfileInfo('name', e.target.value));
+    document.getElementById('profile-edit-cabinet')?.addEventListener('input', (e) => this.updateProfileInfo('cabinet', e.target.value));
+
+    // Presentation Mode
+    document.getElementById('res-deck')?.addEventListener('click', (e) => {
+      if (!e.currentTarget.classList.contains('disabled')) {
+        e.preventDefault();
+        this.openPresentation();
+      }
+    });
+
+    document.getElementById('next-slide')?.addEventListener('click', () => this.changeSlide(1));
+    document.getElementById('prev-slide')?.addEventListener('click', () => this.changeSlide(-1));
   }
 
   navigateTo(viewId) {
@@ -182,7 +199,149 @@ class ShiftApp {
   }
 
   // ---- PRESENTATION MODE ----
+  openPresentation() {
+    this.currentSlide = 0;
+    this.slides = [
+      {
+        title: "Du Chiffre à la Valeur",
+        desc: "Mutation Stratégique & Réponse Opérationnelle SHIFT.",
+        content: `<div class="slide-visual"><i class="ph ph-presentation-chart" style="font-size:5rem;color:var(--accent-primary)"></i></div>`
+      },
+      {
+        title: "Le Diagnostic : La Fin d'un Monde",
+        desc: "Pourquoi le modèle historique est condamné.",
+        content: `<div class="slide-grid">
+          <div class="slide-card"><i class="ph ph-clock-countdown"></i><h3>Obsolescence</h3><p>Fin du 'Temps Passé'.</p></div>
+          <div class="slide-card"><i class="ph ph-link-break"></i><h3>Déconnexion</h3><p>Production vs Valeur.</p></div>
+        </div>`
+      },
+      {
+        title: "La Triple Disruption 2026",
+        desc: "Un tsunami réglementaire et technologique.",
+        content: `<div class="slide-grid" style="grid-template-columns: repeat(3, 1fr);">
+          <div class="slide-card"><i class="ph-fill ph-file-text"></i><h3>Légal</h3><p>Facture Élec.</p></div>
+          <div class="slide-card"><i class="ph-fill ph-cpu"></i><h3>Tech</h3><p>IA & Automatisation.</p></div>
+          <div class="slide-card"><i class="ph-fill ph-users-three"></i><h3>Marché</h3><p>Nouveaux entrants.</p></div>
+        </div>`
+      },
+      {
+        title: "Érosion Économique",
+        desc: "Le paradoxe de la productivité.",
+        content: `<div class="slide-visual" style="background:linear-gradient(rgba(239,68,68,0.1), transparent)">
+          <div style="font-size:1.5rem;font-weight:700;color:var(--error)">Marges en Danger</div>
+          <p style="margin-top:10px">Moins d'heures = Moins de CA (Modèle Horaire).</p>
+        </div>`
+      },
+      {
+        title: "La Solution : SHIFT App",
+        desc: "Piloter le pivot stratégique vers le conseil.",
+        content: `<div class="slide-visual">
+          <div class="app-mockup-mini">
+            <i class="ph ph-rocket-launch" style="font-size:3rem;color:var(--accent-secondary)"></i>
+            <div style="font-weight:800;font-size:1.2rem;margin-top:10px">SHIFT</div>
+          </div>
+          <p style="margin-top:20px">Transformer la conformité en moteur de croissance.</p>
+        </div>`
+      },
+      {
+        title: "Radar de Maturité",
+        desc: "Évaluer les 6 piliers critiques du cabinet.",
+        content: `<div class="slide-grid">
+          <div class="slide-card"><i class="ph ph-target"></i><h3>Scoring</h3><p>Audit interactif 360°.</p></div>
+          <div class="slide-card"><i class="ph ph-lightbulb"></i><h3>Valeur</h3><p>Leviers de croissance.</p></div>
+        </div>`
+      },
+      {
+        title: "Roadmap : Les 8 Sprints",
+        desc: "Parcours guidé vers le nouveau modèle.",
+        content: `<div class="slide-visual">
+          <div style="display:flex;gap:8px;justify-content:center;margin-bottom:20px;flex-wrap:wrap">
+            <span class="badge" style="background:var(--accent-primary)">1. Mindset</span>
+            <span class="badge" style="background:var(--accent-secondary)">3. Audit</span>
+            <span class="badge" style="background:var(--success)">5. Pricing</span>
+            <span class="badge" style="background:var(--warning)">7. Déploiement</span>
+          </div>
+          <p>Une transformation structurée en 90 jours.</p>
+        </div>`
+      },
+      {
+        title: "Catalogue de Missions",
+        desc: "Offres 'Full Service' prêtes à l'emploi.",
+        content: `<div class="slide-grid">
+          <div class="slide-card"><i class="ph ph-chart-pie"></i><h3>Pilotage</h3><p>Reporting & Stratégie.</p></div>
+          <div class="slide-card"><i class="ph ph-users"></i><h3>RH</h3><p>Missions à forte valeur.</p></div>
+        </div>`
+      },
+      {
+        title: "Business Model : Valeur",
+        desc: "Sortir définitivement du chronomètre.",
+        content: `<div class="slide-visual">
+          <div style="font-size:1.8rem;font-weight:800;color:var(--success)">IMPACT ➔ PRIX</div>
+          <p style="margin-top:10px">Facturer l'économie ou le gain généré.</p>
+        </div>`
+      },
+      {
+        title: "L'Avenir du Cabinet",
+        desc: "Sens, Utilité et Pérennité.",
+        content: `<div class="slide-grid">
+          <div class="slide-card"><h3>Talents</h3><p>Attractivité & Sens</p></div>
+          <div class="slide-card"><h3>Patrimoine</h3><p>Valeur de revente</p></div>
+        </div>`
+      },
+      {
+        title: "Démonstration Interface",
+        desc: "Simplicité et pilotage en temps réel.",
+        content: `<div class="slide-visual">
+          <button class="btn-primary modal-close" onclick="window.shiftApp.navigateTo('dashboard-view');window.shiftApp.renderDashboard();" style="padding: 12px 24px;">Lancer la démo</button>
+        </div>`
+      },
+      {
+        title: "Conclusion",
+        desc: "SHIFT : Votre levier de réussite.",
+        content: `<div class="slide-visual">
+          <h2 style="font-size:2rem;color:var(--accent-primary)">Transformer ou Disparaître</h2>
+          <p style="margin-top:20px">Le changement est une opportunité.</p>
+        </div>`
+      }
+    ];
 
+    const container = document.getElementById('slides-container');
+    container.innerHTML = this.slides.map((s, i) => `
+      <div class="slide ${i === 0 ? 'active' : ''}" data-idx="${i}">
+        <div class="slide-content">
+          <h2>${s.title}</h2>
+          <p>${s.desc}</p>
+          ${s.content}
+        </div>
+      </div>
+    `).join('');
+
+    document.getElementById('total-slides').textContent = this.slides.length;
+    this.updateSlideUI();
+    document.getElementById('presentation-modal').classList.add('open');
+  }
+
+  changeSlide(direction) {
+    const next = this.currentSlide + direction;
+    if (next < 0 || next >= this.slides.length) return;
+
+    const currentEl = document.querySelector(`.slide[data-idx="${this.currentSlide}"]`);
+    const nextEl = document.querySelector(`.slide[data-idx="${next}"]`);
+
+    currentEl.classList.remove('active');
+    if (direction > 0) currentEl.classList.add('prev');
+    else nextEl.classList.remove('prev');
+
+    nextEl.classList.add('active');
+    this.currentSlide = next;
+    this.updateSlideUI();
+  }
+
+  updateSlideUI() {
+    document.getElementById('current-slide').textContent = this.currentSlide + 1;
+    document.getElementById('prev-slide').disabled = this.currentSlide === 0;
+    document.getElementById('next-slide').disabled = this.currentSlide === this.slides.length - 1;
+  }
 
   // ---- SPLASH ANIMATIONS ----
   initSplashAnimations() {
