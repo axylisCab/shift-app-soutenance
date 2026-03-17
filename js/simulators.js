@@ -56,10 +56,22 @@ class Simulators {
           <div class="sim-result-detail" id="res-temps-detail">Perte: -60 000 €</div>
         </div>
         <div class="sim-result" style="border-left:3px solid var(--success)">
-          <div class="sim-result-label">✅ Modèle valeur (3 niveaux)</div>
+          <div class="sim-result-label">
+            ✅ Modèle valeur (3 niveaux)
+            <span class="info-trigger" id="trigger-valeur-info"><i class="ph ph-question"></i></span>
+          </div>
           <div class="sim-result-value" id="res-valeur" style="color:var(--success)">225 000 €</div>
           <div class="sim-result-detail" id="res-valeur-detail">Gain: +75 000 €</div>
         </div>
+      </div>
+
+      <div id="pricing-explanation" class="sim-explanation-box">
+        <h4>Pourquoi ce gain de +50% ?</h4>
+        <ul>
+          <li><strong>Sortie de la commodité :</strong> Vous ne vendez plus des "heures", mais un forfait de tranquillité d'esprit.</li>
+          <li><strong>Montée en gamme :</strong> Le packaging en 3 niveaux permet de monétiser le conseil pour les clients qui le souhaitent.</li>
+          <li><strong>Marge d'efficacité :</strong> L'IA réduit vos coûts, mais votre valeur intellectuelle reste la même. Vous gardez le bénéfice de votre productivité.</li>
+        </ul>
       </div>
     `;
     const update = () => {
@@ -80,18 +92,22 @@ class Simulators {
     ['sl-clients', 'sl-honoraire', 'sl-auto'].forEach(id => {
       document.getElementById(id)?.addEventListener('input', update);
     });
+    document.getElementById('trigger-valeur-info')?.addEventListener('click', () => {
+      document.getElementById('pricing-explanation').classList.toggle('active');
+    });
+
     update();
   }
 
   renderIA() {
     this.modalTitle.textContent = '🤖 Simulateur Impact IA';
     this.modalBody.innerHTML = `
-      <div class="sim-section">
+      < div class="sim-section" >
         <h3>Quel temps pouvez-vous libérer avec l'IA ?</h3>
         <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:20px">
           60 à 80% des écritures comptables sont automatisables. Simulez l'impact sur votre cabinet.
         </p>
-      </div>
+      </div >
       <div class="sim-section">
         <div class="sim-slider-group">
           <div class="sim-slider-label"><span>Collaborateurs</span><span class="sim-slider-value" id="val-collabs">8</span></div>
@@ -145,10 +161,10 @@ class Simulators {
   renderROI() {
     this.modalTitle.textContent = '📈 Simulateur ROI Missions';
     this.modalBody.innerHTML = `
-      <div class="sim-section">
+      < div class="sim-section" >
         <h3>ROI des nouvelles missions</h3>
         <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:20px">Estimez le revenu additionnel en déployant les 4 nouvelles missions.</p>
-      </div>
+      </div >
       <div class="sim-section">
         <div class="sim-slider-group">
           <div class="sim-slider-label"><span>🎯 Clients en Co-pilotage</span><span class="sim-slider-value" id="val-copil">10</span></div>
@@ -186,7 +202,7 @@ class Simulators {
       const revCopil = copil * prices.copil, revFull = full * prices.full, revData = data * prices.data, revRse = rse * prices.rse;
       const total = revCopil + revFull + revData + revRse;
       document.getElementById('res-roi-total').textContent = total.toLocaleString('fr-FR') + ' €';
-      document.getElementById('res-roi-detail').textContent = `Co-pilotage: ${(revCopil / 1000).toFixed(0)}k | Full Service: ${(revFull / 1000).toFixed(0)}k | Data: ${(revData / 1000).toFixed(1)}k | RSE: ${(revRse / 1000).toFixed(0)}k`;
+      document.getElementById('res-roi-detail').textContent = `Co - pilotage: ${(revCopil / 1000).toFixed(0)} k | Full Service: ${(revFull / 1000).toFixed(0)} k | Data: ${(revData / 1000).toFixed(1)} k | RSE: ${(revRse / 1000).toFixed(0)} k`;
     };
     ['sl-copil', 'sl-full', 'sl-data', 'sl-rse'].forEach(id => document.getElementById(id)?.addEventListener('input', update));
     update();
