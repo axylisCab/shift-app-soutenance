@@ -3,11 +3,11 @@
    ============================================ */
 
 class RadarChart {
-  constructor(svgElement, size = 800) {
+  constructor(svgElement, size = 1600) {
     this.svg = svgElement;
     this.size = size;
     this.center = size / 2;
-    this.maxRadius = size * 0.32; // Kept ratio, but size is now 800 instead of 500
+    this.maxRadius = size * 0.32; // Size is now 1600 for massive impact
     this.axes = SHIFT_DATA.axes;
     this.levels = 4;
   }
@@ -34,28 +34,28 @@ class RadarChart {
       }).join(' ');
 
       const opacity = level === this.levels ? 0.3 : 0.12;
-      html += `<polygon points="${points}" fill="none" stroke="rgba(255,255,255,${opacity})" stroke-width="1.5" stroke-dasharray="${level < this.levels ? '4,4' : 'none'}"/>`;
+      html += `<polygon points="${points}" fill="none" stroke="rgba(255,255,255,${opacity})" stroke-width="3" stroke-dasharray="${level < this.levels ? '8,8' : 'none'}"/>`;
     }
 
     // Draw axis lines
     this.axes.forEach((axis, i) => {
       const p = this.getPoint(i, this.levels, this.levels);
       html += `<line x1="${this.center}" y1="${this.center}" x2="${p.x}" y2="${p.y}" 
-               stroke="rgba(255,255,255,0.15)" stroke-width="1"/>`;
+               stroke="rgba(255,255,255,0.15)" stroke-width="2"/>`;
     });
 
     // Draw axis labels
     this.axes.forEach((axis, i) => {
-      // Icon with premium sizing (+50%)
+      // Icon with massive sizing (Doubled from 34 to 68)
       const pIcon = this.getPoint(i, this.levels + 0.6, this.levels);
       html += `<text x="${pIcon.x}" y="${pIcon.y}" text-anchor="middle" dominant-baseline="middle" 
-               fill="${axis.color}" font-family="Outfit" font-weight="700" font-size="34">
+               fill="${axis.color}" font-family="Outfit" font-weight="700" font-size="68">
                ${axis.icon}</text>`;
 
-      // Label with high-end typography (+50%)
+      // Label with high-end typography (Doubled from 20 to 40)
       const pLabel = this.getPoint(i, this.levels + 1.4, this.levels);
       html += `<text x="${pLabel.x}" y="${pLabel.y}" text-anchor="middle" dominant-baseline="middle" 
-               fill="var(--text-primary)" font-family="Outfit" font-weight="800" font-size="20" style="letter-spacing: 2px;">
+               fill="var(--text-primary)" font-family="Outfit" font-weight="800" font-size="40" style="letter-spacing: 4px;">
                ${axis.label.toUpperCase()}</text>`;
     });
 
@@ -74,7 +74,7 @@ class RadarChart {
 
     if (isGhost) {
       return `<polygon points="${points}" fill="rgba(255,255,255,0.03)" 
-               stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-dasharray="4,4" stroke-linejoin="round"/>`;
+               stroke="rgba(255,255,255,0.2)" stroke-width="4" stroke-dasharray="8,8" stroke-linejoin="round"/>`;
     }
 
     let html = `
@@ -84,7 +84,7 @@ class RadarChart {
           <stop offset="100%" style="stop-color:#007DA1; stop-opacity:0.3"/>
         </linearGradient>
         <filter id="glow_${gradientId}" x="-30%" y="-30%" width="160%" height="160%">
-          <feGaussianBlur stdDeviation="6" result="blur"/>
+          <feGaussianBlur stdDeviation="12" result="blur"/>
           <feComposite in="SourceGraphic" in2="blur" operator="over"/>
         </filter>
       </defs>
@@ -100,15 +100,15 @@ class RadarChart {
              stroke="#00D2FF" stroke-width="3" stroke-linejoin="round"
              class="radar-data-polygon" style="${animate ? 'opacity:0; animation: radar-appear 1s ease-out 0.3s forwards;' : ''}"/>`;
 
-    // Data points
+    // Data points (Doubled)
     this.axes.forEach((axis, i) => {
       const p = this.getPoint(i, scores[i]);
       const delay = 0.5 + i * 0.15;
-      html += `<circle cx="${p.x}" cy="${p.y}" r="10" fill="${axis.color}" fill-opacity="0.3" stroke="none"
+      html += `<circle cx="${p.x}" cy="${p.y}" r="20" fill="${axis.color}" fill-opacity="0.3" stroke="none"
                style="${animate ? `opacity:0; animation: dot-pop 0.5s cubic-bezier(0.34,1.56,0.64,1) ${delay}s forwards;` : ''}"/>`;
-      html += `<circle cx="${p.x}" cy="${p.y}" r="7" fill="${axis.color}" stroke="white" stroke-width="2"
+      html += `<circle cx="${p.x}" cy="${p.y}" r="14" fill="${axis.color}" stroke="white" stroke-width="4"
                style="${animate ? `opacity:0; animation: dot-pop 0.5s cubic-bezier(0.34,1.56,0.64,1) ${delay}s forwards;` : ''}"/>`;
-      html += `<circle cx="${p.x}" cy="${p.y}" r="3" fill="white"
+      html += `<circle cx="${p.x}" cy="${p.y}" r="6" fill="white"
                style="${animate ? `opacity:0; animation: dot-pop 0.5s cubic-bezier(0.34,1.56,0.64,1) ${delay}s forwards;` : ''}"/>`;
     });
 
@@ -159,22 +159,22 @@ class RadarChart {
         return `${p.x},${p.y}`;
       }).join(' ');
       const op = level === this.levels ? 0.25 : 0.1;
-      html += `<polygon points="${points}" fill="none" stroke="rgba(255,255,255,${op})" stroke-width="1" stroke-dasharray="${level < this.levels ? '3,3' : 'none'}"/>`;
+      html += `<polygon points="${points}" fill="none" stroke="rgba(255,255,255,${op})" stroke-width="2" stroke-dasharray="${level < this.levels ? '6,6' : 'none'}"/>`;
     }
 
     // Axis lines
     this.axes.forEach((axis, i) => {
       const p = this.getPoint(i, this.levels, this.levels);
-      html += `<line x1="${this.center}" y1="${this.center}" x2="${p.x}" y2="${p.y}" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>`;
+      html += `<line x1="${this.center}" y1="${this.center}" x2="${p.x}" y2="${p.y}" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>`;
     });
 
-    // Axis labels (small) with anti-clipping positioning (+50%)
+    // Axis labels (small) with anti-clipping positioning (Doubled)
     this.axes.forEach((axis, i) => {
       const p = this.getPoint(i, this.levels + 0.8, this.levels);
-      html += `<text x="${p.x}" y="${p.y}" text-anchor="middle" dominant-baseline="middle" fill="${axis.color}" font-family="Outfit" font-weight="700" font-size="18">${axis.icon}</text>`;
+      html += `<text x="${p.x}" y="${p.y}" text-anchor="middle" dominant-baseline="middle" fill="${axis.color}" font-family="Outfit" font-weight="700" font-size="36">${axis.icon}</text>`;
 
       const pLabel = this.getPoint(i, this.levels + 1.6, this.levels);
-      html += `<text x="${pLabel.x}" y="${pLabel.y}" text-anchor="middle" dominant-baseline="middle" fill="var(--text-secondary)" font-family="Outfit" font-weight="800" font-size="13" style="letter-spacing: 0.5px;">${axis.label.toUpperCase()}</text>`;
+      html += `<text x="${pLabel.x}" y="${pLabel.y}" text-anchor="middle" dominant-baseline="middle" fill="var(--text-secondary)" font-family="Outfit" font-weight="800" font-size="26" style="letter-spacing: 1px;">${axis.label.toUpperCase()}</text>`;
     });
 
     // Previous data polygon (ghost)
