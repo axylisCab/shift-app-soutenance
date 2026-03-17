@@ -642,8 +642,9 @@ input {
 
 .radar-chart-wrapper {
   width: 100%;
-  max-width: 1200px;
-  margin-bottom: 32px;
+  max-width: 1400px;
+  margin: 0 auto 32px;
+  padding: 40px;
 }
 
 .radar-svg {
@@ -1072,11 +1073,12 @@ input {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
-  padding: 24px;
+  gap: 30px;
+  padding: 40px;
   background: radial-gradient(ellipse at 30% 50%, rgba(0, 169, 224, 0.1) 0%, transparent 70%), var(--bg-card);
   border-radius: var(--radius-lg);
   border: 1px solid rgba(0, 169, 224, 0.15);
+  overflow: visible;
 }
 
 .mini-radar-svg-container {

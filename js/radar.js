@@ -3,11 +3,11 @@
    ============================================ */
 
 class RadarChart {
-  constructor(svgElement, size = 1600) {
+  constructor(svgElement, size = 2000) {
     this.svg = svgElement;
     this.size = size;
     this.center = size / 2;
-    this.maxRadius = size * 0.32; // Size is now 1600 for massive impact
+    this.maxRadius = size * 0.22; // Reduced ratio from 0.32 to 0.22 to leave massive room for oversized titles
     this.axes = SHIFT_DATA.axes;
     this.levels = 4;
   }
@@ -46,16 +46,16 @@ class RadarChart {
 
     // Draw axis labels
     this.axes.forEach((axis, i) => {
-      // Icon with massive sizing (Doubled from 34 to 68)
-      const pIcon = this.getPoint(i, this.levels + 0.6, this.levels);
+      // Icon with massive sizing and massive breathing room
+      const pIcon = this.getPoint(i, this.levels + 1.0, this.levels);
       html += `<text x="${pIcon.x}" y="${pIcon.y}" text-anchor="middle" dominant-baseline="middle" 
-               fill="${axis.color}" font-family="Outfit" font-weight="700" font-size="68">
+               fill="${axis.color}" font-family="Outfit" font-weight="700" font-size="80">
                ${axis.icon}</text>`;
 
-      // Label with high-end typography (Doubled from 20 to 40)
-      const pLabel = this.getPoint(i, this.levels + 1.4, this.levels);
+      // Label with high-end typography and safe positioning
+      const pLabel = this.getPoint(i, this.levels + 2.5, this.levels);
       html += `<text x="${pLabel.x}" y="${pLabel.y}" text-anchor="middle" dominant-baseline="middle" 
-               fill="var(--text-primary)" font-family="Outfit" font-weight="800" font-size="40" style="letter-spacing: 4px;">
+               fill="var(--text-primary)" font-family="Outfit" font-weight="800" font-size="45" style="letter-spacing: 5px;">
                ${axis.label.toUpperCase()}</text>`;
     });
 
@@ -138,10 +138,10 @@ class RadarChart {
   // Render mini version (for dashboard)
   renderMini(svgElement, scores, previousScores = null) {
     this.svg = svgElement;
-    this.size = 450;
-    this.center = 225;
-    this.maxRadius = 130;
-    this.svg.setAttribute('viewBox', '0 0 450 450');
+    this.size = 1400; // Increased to 1400
+    this.center = 700;
+    this.maxRadius = 240;
+    this.svg.setAttribute('viewBox', '0 0 1400 1400');
 
     let html = `
           <defs>
@@ -168,13 +168,13 @@ class RadarChart {
       html += `<line x1="${this.center}" y1="${this.center}" x2="${p.x}" y2="${p.y}" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>`;
     });
 
-    // Axis labels (small) with anti-clipping positioning (Doubled)
+    // Axis labels (small) with anti-clipping positioning (Massive)
     this.axes.forEach((axis, i) => {
       const p = this.getPoint(i, this.levels + 0.8, this.levels);
-      html += `<text x="${p.x}" y="${p.y}" text-anchor="middle" dominant-baseline="middle" fill="${axis.color}" font-family="Outfit" font-weight="700" font-size="36">${axis.icon}</text>`;
+      html += `<text x="${p.x}" y="${p.y}" text-anchor="middle" dominant-baseline="middle" fill="${axis.color}" font-family="Outfit" font-weight="700" font-size="48">${axis.icon}</text>`;
 
-      const pLabel = this.getPoint(i, this.levels + 1.6, this.levels);
-      html += `<text x="${pLabel.x}" y="${pLabel.y}" text-anchor="middle" dominant-baseline="middle" fill="var(--text-secondary)" font-family="Outfit" font-weight="800" font-size="26" style="letter-spacing: 1px;">${axis.label.toUpperCase()}</text>`;
+      const pLabel = this.getPoint(i, this.levels + 2.2, this.levels);
+      html += `<text x="${pLabel.x}" y="${pLabel.y}" text-anchor="middle" dominant-baseline="middle" fill="var(--text-secondary)" font-family="Outfit" font-weight="800" font-size="32" style="letter-spacing: 2px;">${axis.label.toUpperCase()}</text>`;
     });
 
     // Previous data polygon (ghost)
