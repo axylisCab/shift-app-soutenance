@@ -3,11 +3,11 @@
    ============================================ */
 
 class RadarChart {
-  constructor(svgElement, size = 1000) {
+  constructor(svgElement, size = 500) {
     this.svg = svgElement;
     this.size = size;
     this.center = size / 2;
-    this.maxRadius = size * 0.38; // Augmenté pour mieux remplir l'espace (base 1000)
+    this.maxRadius = size * 0.32; // ~160 sur 500, occupe tout le centre proprement
     this.axes = SHIFT_DATA.axes;
     this.levels = 4;
   }
@@ -45,17 +45,18 @@ class RadarChart {
     });
 
     // Étiquettes des axes (Titres et Icônes)
+    // Étiquettes des axes (Titres et Icônes)
     this.axes.forEach((axis, i) => {
-      // Icône massive - Positionnée juste après le dernier cercle du radar
-      const pIcon = this.getPoint(i, this.levels + 0.6, this.levels);
+      // Icône massive
+      const pIcon = this.getPoint(i, this.levels + 0.5, this.levels);
       html += `<text x="${pIcon.x}" y="${pIcon.y}" text-anchor="middle" dominant-baseline="middle" 
-               fill="${axis.color}" font-family="Outfit" font-weight="700" font-size="52">
+               fill="${axis.color}" font-family="Outfit" font-weight="700" font-size="60">
                ${axis.icon}</text>`;
 
-      // Titre en majuscules - Positionné à l'extérieur
-      const pLabel = this.getPoint(i, this.levels + 1.25, this.levels);
+      // Titre en majuscules
+      const pLabel = this.getPoint(i, this.levels + 1.2, this.levels);
       html += `<text x="${pLabel.x}" y="${pLabel.y}" text-anchor="middle" dominant-baseline="middle" 
-               fill="var(--text-primary)" font-family="Outfit" font-weight="800" font-size="28" style="letter-spacing: 3px;">
+               fill="var(--text-primary)" font-family="Outfit" font-weight="800" font-size="32" style="letter-spacing: 2px;">
                ${axis.label.toUpperCase()}</text>`;
     });
 
@@ -138,10 +139,10 @@ class RadarChart {
   // Render mini version (for dashboard)
   renderMini(svgElement, scores, previousScores = null) {
     this.svg = svgElement;
-    this.size = 800;
-    this.center = 400;
-    this.maxRadius = 250;
-    this.svg.setAttribute('viewBox', '0 0 800 800');
+    this.size = 500;
+    this.center = 250;
+    this.maxRadius = 160;
+    this.svg.setAttribute('viewBox', '0 0 500 500');
 
     let html = `
           <defs>
@@ -169,12 +170,13 @@ class RadarChart {
     });
 
     // Axis labels (small) with anti-clipping positioning (Massive)
+    // Étiquettes mini (Icônes + Titres réduits)
     this.axes.forEach((axis, i) => {
-      const p = this.getPoint(i, this.levels + 0.65, this.levels);
-      html += `<text x="${p.x}" y="${p.y}" text-anchor="middle" dominant-baseline="middle" fill="${axis.color}" font-family="Outfit" font-weight="700" font-size="34">${axis.icon}</text>`;
+      const p = this.getPoint(i, this.levels + 0.55, this.levels);
+      html += `<text x="${p.x}" y="${p.y}" text-anchor="middle" dominant-baseline="middle" fill="${axis.color}" font-family="Outfit" font-weight="700" font-size="45">${axis.icon}</text>`;
 
-      const pLabel = this.getPoint(i, this.levels + 1.25, this.levels);
-      html += `<text x="${pLabel.x}" y="${pLabel.y}" text-anchor="middle" dominant-baseline="middle" fill="var(--text-secondary)" font-family="Outfit" font-weight="800" font-size="20" style="letter-spacing: 1px;">${axis.label.toUpperCase()}</text>`;
+      const pLabel = this.getPoint(i, this.levels + 1.15, this.levels);
+      html += `<text x="${pLabel.x}" y="${pLabel.y}" text-anchor="middle" dominant-baseline="middle" fill="var(--text-secondary)" font-family="Outfit" font-weight="800" font-size="24" style="letter-spacing: 1px;">${axis.label.toUpperCase()}</text>`;
     });
 
     // Previous data polygon (ghost)
