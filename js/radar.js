@@ -7,7 +7,7 @@ class RadarChart {
     this.svg = svgElement;
     this.size = size;
     this.center = size / 2;
-    this.maxRadius = size * 0.27; // ~135 sur 500
+    this.maxRadius = size * 0.36; // ~180 sur 500 (+33% vs 135)
     this.axes = SHIFT_DATA.axes;
     this.levels = 4;
   }
@@ -46,8 +46,8 @@ class RadarChart {
 
     // Étiquettes des axes (Titres uniquement)
     this.axes.forEach((axis, i) => {
-      // Titre en majuscules - Écarté davantage (1.1)
-      const pLabel = this.getPoint(i, this.levels + 1.1, this.levels);
+      // Titre en majuscules - Ajusté pour le nouveau rayon
+      const pLabel = this.getPoint(i, this.levels + 0.95, this.levels);
       html += `<text x="${pLabel.x}" y="${pLabel.y}" text-anchor="middle" dominant-baseline="middle" 
                fill="var(--text-primary)" font-family="Outfit" font-weight="800" font-size="28" style="letter-spacing: 1px;">
                ${axis.label.toUpperCase()}</text>`;
@@ -134,7 +134,7 @@ class RadarChart {
     this.svg = svgElement;
     this.size = 500;
     this.center = 250;
-    this.maxRadius = 135;
+    this.maxRadius = 180;
     this.svg.setAttribute('viewBox', '0 0 500 500');
 
     let html = `
@@ -164,7 +164,7 @@ class RadarChart {
 
     // Étiquettes mini (Titres uniquement)
     this.axes.forEach((axis, i) => {
-      const pLabel = this.getPoint(i, this.levels + 1.1, this.levels);
+      const pLabel = this.getPoint(i, this.levels + 0.95, this.levels);
       html += `<text x="${pLabel.x}" y="${pLabel.y}" text-anchor="middle" dominant-baseline="middle" fill="var(--text-secondary)" font-family="Outfit" font-weight="800" font-size="24" style="letter-spacing: 1px;">${axis.label.toUpperCase()}</text>`;
     });
 
