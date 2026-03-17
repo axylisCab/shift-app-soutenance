@@ -7,7 +7,7 @@ class RadarChart {
     this.svg = svgElement;
     this.size = size;
     this.center = size / 2;
-    this.maxRadius = size * 0.32; // ~160 sur 500, occupe tout le centre proprement
+    this.maxRadius = size * 0.22; // ~110 sur 500, marge maximale pour les textes longs (PRODUCTION)
     this.axes = SHIFT_DATA.axes;
     this.levels = 4;
   }
@@ -46,10 +46,10 @@ class RadarChart {
 
     // Étiquettes des axes (Titres uniquement)
     this.axes.forEach((axis, i) => {
-      // Titre en majuscules - Repositionné plus près du radar (0.7)
-      const pLabel = this.getPoint(i, this.levels + 0.7, this.levels);
+      // Titre en majuscules - Repositionné (0.75)
+      const pLabel = this.getPoint(i, this.levels + 0.75, this.levels);
       html += `<text x="${pLabel.x}" y="${pLabel.y}" text-anchor="middle" dominant-baseline="middle" 
-               fill="var(--text-primary)" font-family="Outfit" font-weight="800" font-size="34" style="letter-spacing: 2px;">
+               fill="var(--text-primary)" font-family="Outfit" font-weight="800" font-size="28" style="letter-spacing: 1px;">
                ${axis.label.toUpperCase()}</text>`;
     });
 
@@ -134,7 +134,7 @@ class RadarChart {
     this.svg = svgElement;
     this.size = 500;
     this.center = 250;
-    this.maxRadius = 160;
+    this.maxRadius = 110;
     this.svg.setAttribute('viewBox', '0 0 500 500');
 
     let html = `
@@ -164,8 +164,8 @@ class RadarChart {
 
     // Étiquettes mini (Titres uniquement)
     this.axes.forEach((axis, i) => {
-      const pLabel = this.getPoint(i, this.levels + 0.65, this.levels);
-      html += `<text x="${pLabel.x}" y="${pLabel.y}" text-anchor="middle" dominant-baseline="middle" fill="var(--text-secondary)" font-family="Outfit" font-weight="800" font-size="28" style="letter-spacing: 1px;">${axis.label.toUpperCase()}</text>`;
+      const pLabel = this.getPoint(i, this.levels + 0.8, this.levels);
+      html += `<text x="${pLabel.x}" y="${pLabel.y}" text-anchor="middle" dominant-baseline="middle" fill="var(--text-secondary)" font-family="Outfit" font-weight="800" font-size="24" style="letter-spacing: 1px;">${axis.label.toUpperCase()}</text>`;
     });
 
     // Previous data polygon (ghost)
